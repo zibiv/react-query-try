@@ -70,7 +70,7 @@ export function PostList1() {
           );
         }) : <h1>No Posts!</h1>}
       </div>
-      <div className="formNewPost w-[30vw] fixed top-0 right-0">
+      <div className="formNewPost w-[30vw] fixed top-[6vh] right-0">
         <form
           onSubmit={async (e) => {
             e.preventDefault();

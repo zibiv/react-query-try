@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 let POSTS = [
-  { id: 1, title: "Green Olly", author: "Garry Molland" },
-  { id: 2, title: "Fargus the Greatest", author: "Mazzy Fazzy" },
+  { id: 1, title: "Kakkali", author: "Aiwo Korvu" },
+  { id: 2, title: "Finnish Tikkurila", author: "Mikka  Tappanenn" },
 ];
 
 export function PostList2() {
@@ -70,7 +70,7 @@ export function PostList2() {
           );
         }) : <h1>No Posts!</h1>}
       </div>
-      <div className="formNewPost w-[30vw] fixed top-0 right-0">
+      <div className="formNewPost w-[30vw] fixed top-[6vh] right-0">
         <form
           onSubmit={async (e) => {
             e.preventDefault();

@@ -12,7 +12,11 @@
   @apply border-2 border-cyan-200 w-40 outline-none rounded-md h-7;
 }
 
-.formNewPost button {
+.button {
+  @apply bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow
+}
+
+.formNewPost button, .blueButton {
   @apply border-b-2 border-cyan-900 bg-cyan-200 ;
 }
 
