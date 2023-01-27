@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <div className="menu h-[6vh] mt-5 flex justify-center">
+      <div className="menu h-[46px] mt-5 flex justify-center">
         <button className="button blueButton mr-4" onClick={()=>handleChangePostList(<PostList1/>)}>Post List 1</button>
         <button className="button blueButton" onClick={()=>handleChangePostList(<PostList2/>)}>Post List 2</button>
       </div>
