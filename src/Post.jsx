@@ -1,15 +1,23 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getPost } from "./api/getPosts";
+import { useQuery } from "@tanstack/react-query"
+
+import { getPost, getUser } from "./api/getPosts";
 
 export function Post({ id }) {
   const postQ = useQuery({
     queryKey: ["posts", id],
     queryFn: () => getPost(id),
   });
+  
+
+  const userQuery = useQuery({
+    queryKey: ["users", postQ?.data?.userId],
+    enabled: !!postQ?.data?.userId,
+    queryFn: () => getUser(postQ?.data?.userId)
+  })
 
   if (postQ.isLoading) return <h1>Loading...</h1>;
   if (postQ.isError) return <h1>{postQ.error}</h1>;
-  console.log(postQ.data);
+  const userName = userQuery.isLoading ? "LOADING" : userQuery.data.name;
 
   return (
     <div className="PostApp mt-7">
@@ -18,7 +26,8 @@ export function Post({ id }) {
           <div className="post  mb-6 flex justify-between">
             <div className="info my-3">
               <h1 className="text-2xl text-cyan-800">{postQ.data.title}</h1>
-              <p>{postQ.data.author}</p>
+              <h3>{postQ.data.author}</h3>
+              <h4 className="text-cyan-400">{userName}</h4>
               <p className="mt-5">{postQ.data.text}</p>
             </div>
           </div>
