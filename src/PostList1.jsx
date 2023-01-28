@@ -1,34 +1,25 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getPosts, pushNewPost } from "./api/getPosts";
 
-let POSTS = [
-  { id: 1, title: "Green Olly", author: "Garry Molland" },
-  { id: 2, title: "Fargus the Greatest", author: "Mazzy Fazzy" },
-];
 
 export function PostList1() {
   const qClient = useQueryClient();
   const postQ = useQuery({
     queryKey: ["posts"],
-    queryFn: () => PromiseF(),
+    queryFn: getPosts,
   });
 
-  const postQQ = useQuery({
-    queryKey: ["posts", {name: "babas"}],
-    queryFn: (obj) => PromiseF(obj),
-  });
 
   const newPostMutation = useMutation({
     mutationKey: ["addNewPost"],
     mutationFn: async (postFromForm) => {
       const newPost = Object.fromEntries(postFromForm);
       console.log(newPost);
-      return await wait(1000).then(() =>
-        POSTS.push({
-          id: crypto.randomUUID(),
-          title: newPost.title,
-          author: newPost.author,
-        })
-      );
+      return await pushNewPost({
+        id: crypto.randomUUID(),
+        title: newPost.title,
+        author: newPost.author,
+      })
     },
     onSuccess: () => {
       qClient.invalidateQueries(["posts"]);
@@ -70,7 +61,7 @@ export function PostList1() {
           );
         }) : <h1>No Posts!</h1>}
       </div>
-      <div className="formNewPost w-[30vw] fixed top-[6vh] right-0">
+      <div className="formNewPost w-[30vw] fixed top-[65px] right-0">
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -110,11 +101,5 @@ export function PostList1() {
   );
 }
 
-async function PromiseF(obj) {
-  await wait(1000);
-  return [...POSTS];
-}
 
-function wait(duration) {
-  return new Promise((resolve, reject) => setTimeout(resolve, duration));
-}
+

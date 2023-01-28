@@ -1,20 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-let POSTS = [
-  { id: 1, title: "Kakkali", author: "Aiwo Korvu" },
-  { id: 2, title: "Finnish Tikkurila", author: "Mikka  Tappanenn" },
-];
+import { getPosts, pushNewPost, deletePost} from "./api/getPosts";
+// let POSTS = [
+//   { id: 1, title: "Kakkali", author: "Aiwo Korvu" },
+//   { id: 2, title: "Finnish Tikkurila", author: "Mikka  Tappanenn" },
+// ];
 
 export function PostList2() {
   const qClient = useQueryClient();
   const postQ = useQuery({
     queryKey: ["posts"],
-    queryFn: () => PromiseF(),
-  });
-
-  const postQQ = useQuery({
-    queryKey: ["posts", {name: "babas"}],
-    queryFn: (obj) => PromiseF(obj),
+    queryFn: getPosts,
   });
 
   const newPostMutation = useMutation({
@@ -22,13 +17,11 @@ export function PostList2() {
     mutationFn: async (postFromForm) => {
       const newPost = Object.fromEntries(postFromForm);
       console.log(newPost);
-      return await wait(1000).then(() =>
-        POSTS.push({
-          id: crypto.randomUUID(),
-          title: newPost.title,
-          author: newPost.author,
-        })
-      );
+      return await pushNewPost({
+        id: crypto.randomUUID(),
+        title: newPost.title,
+        author: newPost.author,
+      })
     },
     onSuccess: () => {
       qClient.invalidateQueries(["posts"]);
@@ -38,9 +31,7 @@ export function PostList2() {
   const delPostMutation = useMutation({
     mutationKey: ["dellNewPost"],
     mutationFn: async (id) => {
-      return await wait(1000).then(() =>
-      POSTS = POSTS.filter((post) => post.id !== id)
-      );
+      return await deletePost(id);
     },
     onSuccess: () => {
       qClient.invalidateQueries(["posts"]);
@@ -70,7 +61,7 @@ export function PostList2() {
           );
         }) : <h1>No Posts!</h1>}
       </div>
-      <div className="formNewPost w-[30vw] fixed top-[6vh] right-0">
+      <div className="formNewPost w-[30vw] fixed top-[65px] right-0">
         <form
           onSubmit={async (e) => {
             e.preventDefault();
