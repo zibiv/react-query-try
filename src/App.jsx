@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { PostList1 } from "./PostList1";
 import { PostList2 } from "./PostList2";
+import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(<PostList1 />)
+  const [currentPage, setCurrentPage] = useState(<PostList1 />);
+
 
   function handleChangePostList(newPostList) {
     setCurrentPage(newPostList);
@@ -19,6 +21,7 @@ function App() {
         <button className="button blueButton" onClick={()=>handleChangePostList(<Post id={1}/>)}>First Post</button>
       </div>
       {currentPage}
+      <CreatePost />
     </>
   )
 }
