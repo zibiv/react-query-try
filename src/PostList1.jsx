@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getPosts, pushNewPost } from "./api/getPosts";
+import { getPosts, pushNewPost, deletePost } from "./api/getPosts";
 
 
 export function PostList1() {
@@ -7,6 +7,7 @@ export function PostList1() {
   const postQ = useQuery({
     queryKey: ["posts"],
     queryFn: getPosts,
+    staleTime: 1000 * 10
   });
 
 
@@ -29,9 +30,7 @@ export function PostList1() {
   const delPostMutation = useMutation({
     mutationKey: ["dellNewPost"],
     mutationFn: async (id) => {
-      return await wait(1000).then(() =>
-      POSTS = POSTS.filter((post) => post.id !== id)
-      );
+      return await deletePost(id);
     },
     onSuccess: () => {
       qClient.invalidateQueries(["posts"]);
