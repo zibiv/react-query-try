@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { getPost, getUser } from "./api/getPosts";
 
+
 export function Post({ id }) {
   const postQ = useQuery({
     queryKey: ["posts", id],

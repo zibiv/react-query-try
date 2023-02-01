@@ -23,7 +23,8 @@ export async function getPosts() {
 }
 
 export async function pushNewPost(newPost) {
-  return await wait(1000).then(()=>POSTS.push(newPost));
+  const length = await wait(1000).then(()=>POSTS.push(newPost));
+  return POSTS[length-1];
 }
 
 export async function deletePost(id) {
@@ -36,4 +37,10 @@ export async function getPost(id) {
   await wait(1000);
   const post = POSTS.find(post => post.id === id);
   return !post ? null : post;
+}
+
+export async function getLatest() {
+  await wait(200);
+  console.log("--------->>>>>")
+  return POSTS[POSTS.length-1].id;
 }

@@ -1,31 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getPosts, pushNewPost, deletePost} from "./api/getPosts";
-// let POSTS = [
-//   { id: 1, title: "Kakkali", author: "Aiwo Korvu" },
-//   { id: 2, title: "Finnish Tikkurila", author: "Mikka  Tappanenn" },
-// ];
 
 export function PostList2() {
-  const qClient = useQueryClient();
-  const postQ = useQuery({
-    queryKey: ["posts"],
-    queryFn: getPosts,
-  });
 
-  const newPostMutation = useMutation({
-    mutationKey: ["addNewPost"],
-    mutationFn: async (postFromForm) => {
-      const newPost = Object.fromEntries(postFromForm);
-      console.log(newPost);
-      return await pushNewPost({
-        id: crypto.randomUUID(),
-        title: newPost.title,
-        author: newPost.author,
-      })
-    },
-    onSuccess: () => {
-      qClient.invalidateQueries(["posts"]);
-    },
+  const qClient = useQueryClient();
+
+  const postQ = useQuery({
+    queryKey: ["posts1"],
+    queryFn: getPosts,
   });
 
   const delPostMutation = useMutation({
@@ -37,8 +19,6 @@ export function PostList2() {
       qClient.invalidateQueries(["posts"]);
     },
   });
-
-  const isDisabled = newPostMutation.isLoading;
 
   if (postQ.isLoading) return <h1>Loading...</h1>;
   if (postQ.isError) return <h1>{postQ.error}</h1>;
@@ -61,51 +41,6 @@ export function PostList2() {
           );
         }) : <h1>No Posts!</h1>}
       </div>
-      <div className="formNewPost w-[30vw] fixed top-[65px] right-0">
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            newPostMutation.mutate(new FormData(e.target));
-            e.target.reset();
-          }}
-          action="/passa"
-        >
-          <div className="block">
-            <label htmlFor="title">Title</label>
-            <input
-              name="title"
-              id="title"
-              type="text"
-              disabled={isDisabled}
-            ></input>
-          </div>
-          <div className="block">
-            <label htmlFor="author">Author</label>
-            <input
-              name="author"
-              id="author"
-              type="text"
-              disabled={isDisabled}
-            ></input>
-          </div>
-          <button
-            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-            type="submit"
-            disabled={isDisabled}
-          >
-            AddNew
-          </button>
-        </form>
-      </div>
     </div>
   );
-}
-
-async function PromiseF(obj) {
-  await wait(1000);
-  return [...POSTS];
-}
-
-function wait(duration) {
-  return new Promise((resolve, reject) => setTimeout(resolve, duration));
 }
