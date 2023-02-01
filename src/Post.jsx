@@ -13,7 +13,7 @@ export function Post({ id }) {
   const userQuery = useQuery({
     queryKey: ["users", postQ?.data?.userId],
     enabled: !!postQ?.data?.userId,
-    queryFn: () => getUser(postQ?.data?.userId)
+    queryFn: () => getUser(postQ?.data?.userId),
   })
 
   if (postQ.isLoading) return <h1>Loading...</h1>;

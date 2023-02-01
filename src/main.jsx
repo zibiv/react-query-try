@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./index.css";
 
 const qClient = new QueryClient({
-  // defaultOptions: { queries: { refetchInterval: 1000 * 12  } },
+  defaultOptions: { queries: { staleTime: 1000 * 60 * 60  } },
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
